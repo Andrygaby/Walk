@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'registration',
+    'accounts',
+    'walk',
 ]
 
 MIDDLEWARE = [
@@ -54,14 +57,18 @@ ROOT_URLCONF = 'WALK.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+            ],
+            'loaders': [
+                'django.template.loaders.app_directories.Loader',
             ],
         },
     },
@@ -116,5 +123,19 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
+STATIC_ROOT = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_EMAIL_SUBJECT_PREFIX = '[Django Registration Test App]'
+SEND_ACTIVATION_EMAIL = True
+REGISTRATION_AUTO_LOGIN = False
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

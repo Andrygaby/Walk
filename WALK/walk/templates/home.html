@@ -1,0 +1,32 @@
+{% extends "Base.html" %}
+
+{% block content %}
+    <div class="card-post" style="font-size: 15px;">
+         {% for post in posts %}
+             <div class="card-index" style="">
+                <div class="head-content">
+                     <i class="user-name">{{ post.author }} </i>
+                     <i class="date-created">| {{ post.created}}</i>
+                     </br>
+                     <hr>
+                     <h5 class="title-name" href="">{{ post.title }}</h5>
+                </div>
+                <div class="body-content">
+                    <p>{{ post.body }}</p>
+                </div>
+                <div class="contents">
+                    <h1>{{ post.title }}</h1>
+                </div>
+                <div class="foot-content">
+                    {% if object.is_liked  %}
+                        {{ post.total_likes }}|<i class="lk icon-thumb_up"></i>
+                    {% else %}
+                        {{ post.total_likes }}|<i class="lk icon-thumb_up"></i>
+                    {% endif %}
+                    
+                    |<i class="cm icon-commenting"></i>
+                </div>
+             </div>
+          {% endfor %}
+    </div>
+{% endblock content %}

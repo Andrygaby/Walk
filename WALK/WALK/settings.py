@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +21,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '^=6s^@1&)n-=x001hl0r+il-=rrs&m!s6kcc3)ij1rs+g@#1%9'
+SECRET_KEY = os.environ.get('SECRET_KEY', '^=6s^@1&)n-=x001hl0r+il-=rrs&m!s6kcc3)ij1rs+g@#1%9') # development key for the moment
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if os.environ.get('ENV') == 'PRODUCTION':
+    DEBUG = False
+else:
+    DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['walk-you.herokuapp.com']
 
 
 # Application definition
@@ -50,6 +54,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'WALK.urls'
@@ -79,13 +85,17 @@ WSGI_APPLICATION = 'WALK.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if os.environ.get('ENV') == 'PRODUCTION':
+    # ...
+    db_from_env = dj_database_url.config(conn_max_age=500)
+    DATABASES['default'].update(db_from_env)
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
 
 
 # Password validation
@@ -123,19 +133,33 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
+if os.environ.get('ENV') == 'PRODUCTION':
+    
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    # Static files settings
+    PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-STATIC_ROOT = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
-ACCOUNT_ACTIVATION_DAYS = 7
-REGISTRATION_EMAIL_SUBJECT_PREFIX = '[Django Registration Test App]'
-SEND_ACTIVATION_EMAIL = True
-REGISTRATION_AUTO_LOGIN = False
+    # Extra places for collectstatic to find static files.
+    STATICFILES_DIRS = (
+        os.path.join(PROJECT_ROOT, 'static'),
+    )
+else:
+    STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static')
+    ]
+
+    STATIC_ROOT = '/static/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+    ACCOUNT_ACTIVATION_DAYS = 7
+    REGISTRATION_EMAIL_SUBJECT_PREFIX = '[Django Registration Test App]'
+    SEND_ACTIVATION_EMAIL = True
+    REGISTRATION_AUTO_LOGIN = False
+
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

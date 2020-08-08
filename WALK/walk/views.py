@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
-from Walk.models import Post as walk
-from accounts.models import Post as show
+from walk.models import Post as walk
+from acounts.models import Post as show
 
 class PostListView(ListView):
     template_name = 'home.html'

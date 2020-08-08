@@ -9,12 +9,12 @@ from django.contrib.auth.models import User
 from django.views.generic.edit import FormMixin,FormView
 from django.views.generic import View, TemplateView,ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.db.models import Q, OuterRef, Subquery
-from accounts.models import Post,Profile
-from accounts.forms import ProfileEditForm, SearchPostForm, SearchUserForm, SpeedPostForm, InboxForm
+from acounts.models import Post,Profile
+from acounts.forms import ProfileEditForm, SearchPostForm, SearchUserForm, SpeedPostForm, InboxForm
 
 from django.contrib import messages
-from accounts.forms import AddCommentForm
-from accounts.models import Post
+from acounts.forms import AddCommentForm
+from acounts.models import Post
 
 #===============================================================================
 class ProfileView(LoginRequiredMixin, TemplateView,FormView):

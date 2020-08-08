@@ -7,7 +7,7 @@ from django.urls import path
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
-from accounts.views import (PostListView, PostCreateView,
+from acounts.views import (PostListView, PostCreateView,
                             PostDetailView,PostUpdateView,
                             PostDeleteView,
                             AddCommentView,
@@ -19,7 +19,7 @@ from accounts.views import (PostListView, PostCreateView,
                             SearchPostResultsView,
                             SearchUserResultsView
                             )
-from accounts import views
+from acounts import views
 
 urlpatterns = [
     url(r'^accounts/', include('registration.backends.default.urls')),

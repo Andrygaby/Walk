@@ -7,7 +7,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from django.views.generic import TemplateView
-from Walk.views import PostListView, PublicListView
+from walk.views import PostListView, PublicListView
 
 urlpatterns = [
     path('walk/', PostListView.as_view(template_name="home.html"),name="home"),

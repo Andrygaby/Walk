@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group, User
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from accounts.models import Profile, Post,Inbox
+from acounts.models import Profile, Post,Inbox
 
 
 class UserCreationForm(forms.ModelForm):

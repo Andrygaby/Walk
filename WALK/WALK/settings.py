@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import dj_database_url
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', '^=6s^@1&)n-=x001hl0r+il-=rrs&m!s6kcc3)ij1rs+g@#1%9') # development key for the moment
+SECRET_KEY = os.environ.get('SECRET_KEY', 'NVhQSjVt?.w&DCqo>g4\x0bMW2y') # development key for the moment
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get('ENV') == 'PRODUCTION':
@@ -146,6 +147,8 @@ if os.environ.get('ENV') == 'PRODUCTION':
     STATICFILES_DIRS = (
         os.path.join(PROJECT_ROOT, 'static'),
     )
+    EMAIL_PORT = 1025
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 else:
     STATIC_URL = '/static/'
     MEDIA_URL = '/media/'
@@ -163,3 +166,7 @@ else:
     REGISTRATION_AUTO_LOGIN = False
 
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+   
+# Activate Django-Heroku.
+django_heroku.settings(locals())
+

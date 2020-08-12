@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'NVhQSjVt?.w&DCqo>g4\x0bMW2y') # development key for the moment
+SECRET_KEY = os.environ.get('SECRET_KEY', 'o<OHX9m[Ny-UtiFv1&wMwI1c') # development key for the moment
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get('ENV') == 'PRODUCTION':
@@ -30,7 +30,7 @@ if os.environ.get('ENV') == 'PRODUCTION':
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ['walk-you.herokuapp.com']
+ALLOWED_HOSTS = ['walk-art.herokuapp.com']
 
 
 # Application definition
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'registration',
     'acounts',
     'walk',
+    'store',
 ]
 
 MIDDLEWARE = [
